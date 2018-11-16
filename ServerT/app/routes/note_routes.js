@@ -41,4 +41,21 @@ module.exports = (app, db) => {
             res.status(500).send(err);
         }
     });
+
+    app.delete('/news/:id', async (req, res) => {
+        try {
+            const id = req.params.id;
+            const details = {
+                '_id': new ObjectID(id)
+            };
+            News.findByIdAndRemove(details, (err, todo) => {
+                if (err) {
+                    return next(new Error('Todo was not found!'));
+                }
+                res.json('Successfully removed');
+            });
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    });
 }
